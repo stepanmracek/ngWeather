@@ -16,7 +16,7 @@
 			<div class="form-group row">
 				<label class="col-2 col-form-label">Select</label>
 				<div class="col-10">
-					<select class="form-control" [(ngModel)]="selectedLocation">
+					<select class="form-control" [(ngModel)]="selectedLocation" (change)="onLocationChanges()">
 						<option *ngFor="let location of locations" [value]="location.name">{{location.name}}</option>
 					</select>
 				</div>
@@ -26,9 +26,8 @@
 	<ngb-tabset>
 		<ngb-tab title="Current weather">
 			<template ngbTabContent>
-					<h2>{{selectedLocation}}</h2>
 					<div *ngIf="weather">
-						<pre>{{ weather | json }}</pre>
+						<pre>{{ weather | async | json }}</pre>
 					</div>
 					<div *ngIf="error">
 						<pre>{{ error | json }}</pre>
