@@ -1,3 +1,7 @@
-<h1>
-  {{title}}
-</h1>
+<div *ngIf="weather">
+	<pre>{{ weather | json }}</pre>
+</div>
+
+<div *ngIf="error">
+	<pre>{{ error | json }}</pre>
+</div>
