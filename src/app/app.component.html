@@ -23,16 +23,10 @@
 			</div>
 		</div>
 	</div>
-	<pre>{{ weather | async | json }}</pre>
 	<ngb-tabset (tabChange)="onTabChange($event)">
 		<ngb-tab id="tab-current" title="Current weather">
 			<template ngbTabContent>
-					<div *ngIf="weather">
-						<pre>{{ weather | async | json }}</pre>
-					</div>
-					<div *ngIf="error">
-						<pre>{{ error | json }}</pre>
-					</div>
+					<current-weather [weather]="weather"></current-weather>
 			</template>
 		</ngb-tab>
 		<ngb-tab id="tab-forecast">

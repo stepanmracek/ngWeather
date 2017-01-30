@@ -38,14 +38,13 @@ export class AppComponent implements OnInit {
 		}
 		this.locations = JSON.parse(savedLocationsString);
 
-		/*this.weather =*/ this.selectedLocationSubject
+		this.selectedLocationSubject
 			.debounceTime(300)
 			.distinctUntilChanged()
-			/*.switchMap(location => {
-				console.log("About to download weather from", location);
-				return location ? this.weatherService.getCurrentWeather(location) : null;
-			});*/
-			.switchMap(this.weatherService.getCurrentWeather)
+			//.switchMap(this.weatherService.getCurrentWeather)
+			.switchMap(location => {
+				return this.weatherService.getCurrentWeather(location);
+			})
 			.subscribe(weather => this.weather = weather);
 
 		setTimeout(() => {
@@ -65,6 +64,7 @@ export class AppComponent implements OnInit {
 		if (this.locations.findIndex(value => value.name === item.name) >= 0) return;
 		this.locations.push(item);
 		localStorage.setItem(this.savedLocationsKey, JSON.stringify(this.locations));
+		this.newLocation = "";
 	}
 
 	onLocationChanges(): void {

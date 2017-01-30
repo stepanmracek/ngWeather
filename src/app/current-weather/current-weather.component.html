@@ -1,0 +1,10 @@
+<div class="container my-5 mx-5" *ngIf="weather">
+	<div class="row align-items-center">
+		<div class="col-4">
+			<h1> {{ weather.main.temp | temperature }}</h1>
+		</div>
+		<div class="col-8">
+			{{ weather.weather[0].main}}
+		</div>
+	</div>
+</div>

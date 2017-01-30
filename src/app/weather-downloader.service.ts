@@ -27,6 +27,7 @@ export class WeatherDownloaderService {
 
 	getCurrentWeather(location: string): Observable<Weather.IWeather> {
 		var url = 'http://api.openweathermap.org/data/2.5/weather?q=' + location + '&appid=' + this.apiKey;
+		console.log("getCurrentWeather() called; location:", location, "; this: ", this);
 		return this.http.get(url).map(this.handleResponse).catch(this.handleError);
 	}
 
