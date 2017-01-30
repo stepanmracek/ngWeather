@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { NgbTabChangeEvent } from '@ng-bootstrap/ng-bootstrap'
 
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -21,7 +22,8 @@ export class AppComponent implements OnInit {
 	locations: ISavedLocation[] = [];
 	newLocation: string = null;
 	selectedLocation: string = null;
-	weather: Observable<Weather.IWeather>;
+	//weather: Observable<Weather.IWeather>;
+	weather: Weather.IWeather;
 	error: any;
 
 	selectedLocationSubject: Subject<string> = new Subject<string>();
@@ -36,13 +38,15 @@ export class AppComponent implements OnInit {
 		}
 		this.locations = JSON.parse(savedLocationsString);
 
-		this.weather = this.selectedLocationSubject
+		/*this.weather =*/ this.selectedLocationSubject
 			.debounceTime(300)
 			.distinctUntilChanged()
-			.switchMap(location => {
+			/*.switchMap(location => {
 				console.log("About to download weather from", location);
 				return location ? this.weatherService.getCurrentWeather(location) : null;
-			});
+			});*/
+			.switchMap(this.weatherService.getCurrentWeather)
+			.subscribe(weather => this.weather = weather);
 
 		setTimeout(() => {
 			if (this.locations.length > 0) {
@@ -66,5 +70,9 @@ export class AppComponent implements OnInit {
 	onLocationChanges(): void {
 		console.log('New location selected:', this.selectedLocation);
 		this.selectedLocationSubject.next(this.selectedLocation);
+	}
+
+	onTabChange($event: NgbTabChangeEvent) {
+		console.log($event.nextId);
 	}
 }
